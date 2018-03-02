@@ -20,14 +20,13 @@ bot.on('ready', function (evt) {
     logger.info(bot.username + ' - (' + bot.id + ')');
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
+    // check to see if command - and check to see if belongs to unrestricted channel
+    // later we'll abstract the 2nd check out and change it to a throttle instead
     if (message.substring(0, 1) == '!' && channels.unrestricted.indexOf(channelID) != -1) {
         var args = message.substring(1).split(' ');
         var cmd = args[0];
 
         args = args.splice(1);
-        logger.info('channel ID: ' + channelID);
 
         switch(cmd) {
             // !killd3bot
