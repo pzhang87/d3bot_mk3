@@ -1,6 +1,8 @@
 var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./auth.json');
+var channels = require('./channels.json');
+
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
@@ -20,11 +22,13 @@ bot.on('ready', function (evt) {
 bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == '!') {
+    if (message.substring(0, 1) == '!' && channels.unrestricted.indexOf(channelID) != -1) {
         var args = message.substring(1).split(' ');
         var cmd = args[0];
 
         args = args.splice(1);
+        logger.info('channel ID: ' + channelID);
+
         switch(cmd) {
             // !killd3bot
             case 'killd3bot':
@@ -33,7 +37,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: 'no u'
                 });
             break;
-            // Just add any case commands if you want to..
          }
      }
 });
