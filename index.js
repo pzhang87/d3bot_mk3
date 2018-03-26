@@ -54,14 +54,36 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 res.on("data", data => {
                   body += data;
                 });
-
+              // look at this horrendous sequence of ternaries. let's fix it later.
                 res.on("end", () => {
                   body = JSON.parse(body);
-                  let reply = body.items ? body.items[0].link : "No results found."
-                  bot.sendMessage({
-                    to: channelID,
-                    message: reply
-                  })
+                  let message = body.items
+                    ?
+                      {
+                        to: channelID,
+                        message: body.items[0].link,
+                        embed: {
+                          title: body.items[0].title,
+                          description: body.items[0].snippet,
+                          url: body.items[0].link,
+                          image: body.items[0].pagemap && body.items[0].pagemap.cse_image
+                            ?
+                              {
+                                url: body.items[0].pagemap.cse_image[0].src,
+                                height: 200,
+                                width: 200
+                              }
+                            :
+                              {}
+                        }
+                      }
+                    :
+                      {
+                        to: channelID,
+                        message: "No results found."
+                      }
+                  logger.info(message);
+                  bot.sendMessage(message)
                 });
 
               }).on("error", (err) => {
