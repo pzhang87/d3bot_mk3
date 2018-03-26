@@ -58,7 +58,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                   body = JSON.parse(body);
                   // look at this horrendous sequence of ternaries. let's fix it later.
                   // 1. check body for search results. if any exist, create object. if not, return 'no result'
-                  // 2. while creating object, add another ternary.
+                  // 2. while creating object, add another ternary check for images, because I'm not sure if each result will always come with an image.
                   // 3. TODO: do something that fixes the description, since snippets/htmlsnippets don't play well in discord.
                   let message = body.items
                     ?
@@ -69,10 +69,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                           title: body.items[0].title,
                           description: body.items[0].snippet,
                           url: body.items[0].link,
-                          image: body.items[0].pagemap && body.items[0].pagemap.cse_image
+                          thumbnail: body.items[0].pagemap && body.items[0].pagemap.cse_thumbnail
                             ?
                               {
-                                url: body.items[0].pagemap.cse_image[0].src,
+                                url: body.items[0].pagemap.cse_thumbnail[0].src,
                                 height: 200,
                                 width: 200
                               }
