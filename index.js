@@ -1,7 +1,8 @@
-var Discord = require('discord.io');
-var logger = require('winston');
-var auth = require('./auth.json');
-var channels = require('./channels.json');
+const Discord = require('discord.io');
+const logger = require('winston');
+const https = require('https');
+const auth = require('./auth.json');
+const channels = require('./channels.json');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -35,6 +36,41 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     to: channelID,
                     message: 'no u'
                 });
+            break;
+
+            // im@s search
+            case 'imas':
+              // construct the query
+              let query = args.join(' ')
+              let url = "https://www.googleapis.com/customsearch/v1" +
+                "?key=" + auth.GOOGLE_CUSTOM_SEARCH_KEY +
+                "&cx=" + auth.GOOGLE_CUSTOM_SEARCH_ENGINE_ID +
+                "&q=" + query;
+
+              // handle the http request here.
+              https.get(url, res => {
+                let body = '';
+
+                res.on("data", data => {
+                  body += data;
+                });
+
+                res.on("end", () => {
+                  body = JSON.parse(body);
+                  let reply = body.items ? body.items[0].link : "No results found."
+                  bot.sendMessage({
+                    to: channelID,
+                    message: reply
+                  })
+                });
+
+              }).on("error", (err) => {
+                logger.info("Error: " + err.message)
+                bot.sendMessage({
+                  to: channelID,
+                  message: "Error: " + err.message
+                })
+              });
             break;
          }
      }
