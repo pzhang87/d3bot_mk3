@@ -54,9 +54,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 res.on("data", data => {
                   body += data;
                 });
-              // look at this horrendous sequence of ternaries. let's fix it later.
                 res.on("end", () => {
                   body = JSON.parse(body);
+                  // look at this horrendous sequence of ternaries. let's fix it later.
+                  // 1. check body for search results. if any exist, create object. if not, return 'no result'
+                  // 2. while creating object, add another ternary.
+                  // 3. TODO: do something that fixes the description, since snippets/htmlsnippets don't play well in discord.
                   let message = body.items
                     ?
                       {
