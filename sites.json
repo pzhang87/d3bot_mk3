@@ -1,11 +1,13 @@
-[
-  {
-    "name": "GSCE"
-
-  },
-
-  {
-    "name": "imas",
-    "base_url": "https://www.project-imas.com/w/api.php?method=opensearch"
-  },
-]
+{
+  "list":
+    [
+      {
+        "name": "im@s",
+        "base_url": "https://www.project-imas.com/w/api.php?action=opensearch"
+      },
+      {
+        "name": "feh",
+        "base_url": "https://feheroes.gamepedia.com/w/api.php?action=opensearch"
+      }
+    ]
+}

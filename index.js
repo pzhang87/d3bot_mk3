@@ -46,15 +46,15 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             // im@s search
             case 'imas':
               // construct the query
-              let query = args.join(' ')
-              let url = "https://www.googleapis.com/customsearch/v1" +
+              var query = args.join(' ');
+              var url = "https://www.googleapis.com/customsearch/v1" +
                 "?key=" + auth.GOOGLE_CUSTOM_SEARCH_KEY +
                 "&cx=" + auth.GOOGLE_CUSTOM_SEARCH_ENGINE_ID +
                 "&q='" + encodeURIComponent(query) + "'";
 
               // handle the http request here.
               https.get(url, res => {
-                let body = '';
+                var body = '';
 
                 res.on("data", data => {
                   body += data;
@@ -62,37 +62,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 res.on("end", () => {
                   body = JSON.parse(body);
 
-                  // look at this horrendous sequence of ternaries. let's fix it later.
-                  // 1. check body for search results. if any exist, create object. if not, return 'no result'
-                  // 2. while creating object, add another ternary check for images, because I'm not sure if each result will always come with an image.
-                  // 3. TODO: do something that fixes the description, since snippets/htmlsnippets don't play well in discord.
-                  // let message = body.items
-                  //   ?
-                  //     {
-                  //       to: channelID,
-                  //       message: body.items[0].link,
-                  //       embed: {
-                  //         title: body.items[0].title,
-                  //         description: body.items[0].snippet,
-                  //         url: body.items[0].link,
-                  //         thumbnail: body.items[0].pagemap && body.items[0].pagemap.cse_thumbnail
-                  //           ?
-                  //             {
-                  //               url: body.items[0].pagemap.cse_thumbnail[0].src,
-                  //               height: 200,
-                  //               width: 200
-                  //             }
-                  //           :
-                  //             {}
-                  //       }
-                  //     }
-                  //   :
-                  //     {
-                  //       to: channelID,
-                  //       message: "No results found."
-                  //     }
-
-                  let message = search.gcseToMessageFormatter(channelID, body)
+                  var message = search.gcseToMessageFormatter(channelID, body)
                   bot.sendMessage(message)
                 });
 
@@ -106,10 +76,30 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             break;
 
           case 'im@s':
-            bot.sendMessage({
-              to: channelID,
-              message: search.test()
-            })
+            var query = args.join(' ')
+            var url = search.mwQueryBuilder("im@s", query)
+            logger.info(url)
+            https.get(url, (res) => {
+              var body = '';
+
+              res.on("data", data => {
+                body += data;
+              });
+
+              res.on("end", () => {
+                body = JSON.parse(body);
+                logger.info(body)
+                bot.sendMessage(search.mwToMessageFormatter(channelID, body))
+              });
+
+            }).on("error", (err) => {
+              logger.info("Error: " + err.message)
+              bot.sendMessage({
+                to: channelID,
+                message: "Error: " + err.message
+              })
+            });
+          break;
          }
      }
 });
