@@ -56,6 +56,6 @@ function gcseToMessageFormatter(channelID, body){
 // }
 
 module.exports = {
-  test: test
-  search: search
+  mwQueryBuilder: mwQueryBuilder,
+  gcseToMessageFormatter: gcseToMessageFormatter
 }
