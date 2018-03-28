@@ -1,8 +1,13 @@
 const Discord = require('discord.io');
 const logger = require('winston');
 const https = require('https');
+
+
 const auth = require('./auth.json');
 const channels = require('./channels.json');
+
+// import * from 'search';
+const search = require('./search.js');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -45,7 +50,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
               let url = "https://www.googleapis.com/customsearch/v1" +
                 "?key=" + auth.GOOGLE_CUSTOM_SEARCH_KEY +
                 "&cx=" + auth.GOOGLE_CUSTOM_SEARCH_ENGINE_ID +
-                "&q=" + query;
+                "&q='" + encodeURIComponent(query) + "'";
 
               // handle the http request here.
               https.get(url, res => {
@@ -56,36 +61,38 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 res.on("end", () => {
                   body = JSON.parse(body);
+
                   // look at this horrendous sequence of ternaries. let's fix it later.
                   // 1. check body for search results. if any exist, create object. if not, return 'no result'
                   // 2. while creating object, add another ternary check for images, because I'm not sure if each result will always come with an image.
                   // 3. TODO: do something that fixes the description, since snippets/htmlsnippets don't play well in discord.
-                  let message = body.items
-                    ?
-                      {
-                        to: channelID,
-                        message: body.items[0].link,
-                        embed: {
-                          title: body.items[0].title,
-                          description: body.items[0].snippet,
-                          url: body.items[0].link,
-                          thumbnail: body.items[0].pagemap && body.items[0].pagemap.cse_thumbnail
-                            ?
-                              {
-                                url: body.items[0].pagemap.cse_thumbnail[0].src,
-                                height: 200,
-                                width: 200
-                              }
-                            :
-                              {}
-                        }
-                      }
-                    :
-                      {
-                        to: channelID,
-                        message: "No results found."
-                      }
-                  logger.info(message);
+                  // let message = body.items
+                  //   ?
+                  //     {
+                  //       to: channelID,
+                  //       message: body.items[0].link,
+                  //       embed: {
+                  //         title: body.items[0].title,
+                  //         description: body.items[0].snippet,
+                  //         url: body.items[0].link,
+                  //         thumbnail: body.items[0].pagemap && body.items[0].pagemap.cse_thumbnail
+                  //           ?
+                  //             {
+                  //               url: body.items[0].pagemap.cse_thumbnail[0].src,
+                  //               height: 200,
+                  //               width: 200
+                  //             }
+                  //           :
+                  //             {}
+                  //       }
+                  //     }
+                  //   :
+                  //     {
+                  //       to: channelID,
+                  //       message: "No results found."
+                  //     }
+
+                  let message = search.gcseToMessageFormatter(channelID, body)
                   bot.sendMessage(message)
                 });
 
@@ -97,6 +104,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 })
               });
             break;
+
+          case 'im@s':
+            bot.sendMessage({
+              to: channelID,
+              message: search.test()
+            })
          }
      }
 });

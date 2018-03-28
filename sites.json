@@ -1,0 +1,11 @@
+[
+  {
+    "name": "GSCE"
+
+  },
+
+  {
+    "name": "imas",
+    "base_url": "https://www.project-imas.com/w/api.php?method=opensearch"
+  },
+]
