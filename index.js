@@ -47,10 +47,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'imas':
               // construct the query
               var query = args.join(' ');
-              var url = "https://www.googleapis.com/customsearch/v1" +
-                "?key=" + auth.GOOGLE_CUSTOM_SEARCH_KEY +
-                "&cx=" + auth.GOOGLE_CUSTOM_SEARCH_ENGINE_ID +
-                "&q='" + encodeURIComponent(query) + "'";
+              var url = search.queryBuilder("imas_gcse", query)
 
               // handle the http request here.
               https.get(url, res => {
@@ -77,7 +74,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
           case 'im@s':
             var query = args.join(' ')
-            var url = search.mwQueryBuilder("im@s", query)
+            var url = search.queryBuilder("im@s", query)
             logger.info(url)
             https.get(url, (res) => {
               var body = '';
@@ -100,6 +97,42 @@ bot.on('message', function (user, userID, channelID, message, evt) {
               })
             });
           break;
+
+        case 'feh':
+          var query = args.join(' ')
+          var url = search.queryBuilder("feh", query)
+          logger.info(url)
+          https.get(url, (res) => {
+            var body = '';
+
+            res.on("data", data => {
+              body += data;
+            });
+
+            res.on("end", () => {
+              logger.info(body)
+              body = JSON.parse(body);
+              bot.sendMessage(search.mwToMessageFormatter(channelID, body))
+            });
+
+          }).on("error", (err) => {
+            logger.info("Error: " + err.message)
+            bot.sendMessage({
+              to: channelID,
+              message: "Error: " + err.message
+            })
+          });
+        break;
+        case '+dkpl':
+          bot.sendMessage({
+            to: channelID,
+            message: "you have added 1 dkpl to your collection. you now have 0 dkpls."
+          })
+        default:
+          bot.sendMessage({
+            to: channelID,
+            message: "shut up i h8 u"
+          });
          }
      }
 });

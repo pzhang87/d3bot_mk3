@@ -2,14 +2,16 @@
 //   return 'test function'
 // }
 const _ = require('lodash');
+const querystring = require('querystring');
 
 const sites = require('./sites.json')
 
-function mwQueryBuilder(name, query){
-  // lodash method that crawls the sites object and returns the object if the name property matches.
+function queryBuilder(name, query){
+  // lodash method that looks at the sites object and returns the object if the name property matches.
   var site = _.find(sites.list, ['name', name])
   if (!_.isUndefined(site)) {
-    return site.base_url + "&search=" + encodeURIComponent(query.toString())
+    return site.base_url + "?" + querystring.stringify(site.params) +
+      "&" + site.method + "=" + encodeURIComponent(query)
   }
 }
 
@@ -18,6 +20,11 @@ function mwToMessageFormatter(channelID, body){
     return {
       to: channelID,
       message: body[3][0]
+    }
+  } else {
+    return {
+      to: channelID,
+      message: "No results found."
     }
   }
 }
@@ -51,7 +58,7 @@ function gcseToMessageFormatter(channelID, body){
 }
 
 module.exports = {
-  mwQueryBuilder: mwQueryBuilder,
+  queryBuilder: queryBuilder,
   mwToMessageFormatter: mwToMessageFormatter,
   gcseToMessageFormatter: gcseToMessageFormatter
 }
