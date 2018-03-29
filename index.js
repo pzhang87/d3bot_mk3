@@ -20,10 +20,18 @@ var bot = new Discord.Client({
    token: auth.token,
    autorun: true
 });
+
 bot.on('ready', function (evt) {
     logger.info('Connected');
     logger.info('Logged in as: ');
     logger.info(bot.username + ' - (' + bot.id + ')');
+
+    channels.unrestricted.forEach( (channel) => {
+      bot.sendMessage({
+        to: channel,
+        message: "`d3bot online`"
+      })
+    })
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
     // check to see if command - and check to see if belongs to unrestricted channel
@@ -128,6 +136,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             to: channelID,
             message: "you have added 1 dkpl to your collection. you now have 0 dkpls."
           })
+          break;
+        case '-dkpl':
+          bot.sendMessage({
+            to: channelID,
+            message: "you have removed 1 dkpl from your collection. you now have 0 dkpls."
+          })
+          break;
         default:
           bot.sendMessage({
             to: channelID,
