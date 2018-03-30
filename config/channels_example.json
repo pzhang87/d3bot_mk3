@@ -1,0 +1,7 @@
+{
+  "unrestricted": [
+    "insert discord channel IDs here",
+    "and then rename this file to channels.json",
+    "this was a temporary solution but it seems ok for now"
+  ]
+}

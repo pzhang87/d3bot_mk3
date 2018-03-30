@@ -3,8 +3,8 @@ const logger = require('winston');
 const https = require('https');
 const _ = require('lodash')
 
-const auth = require('./auth.json');
-const channels = require('./channels.json');
+const auth = require('./config/auth.json');
+const channels = require('./config/channels.json');
 
 // import * from 'Commands';
 const Commands = require('./commands.js')

@@ -1,0 +1,57 @@
+{
+  "list":
+    [
+      {
+        "name": "im@s",
+        "format": "mediawiki",
+        "base_url": "https://www.project-imas.com/",
+        "endpoint": "w/api.php",
+        "page_prefix": "wiki/",
+        "method": "srsearch",
+        "params": {
+          "action": "query",
+          "list": "search",
+          "format": "json"
+        }
+      },
+      {
+        "name": "feh",
+        "format": "mediawiki",
+        "base_url": "https://feheroes.gamepedia.com/",
+        "endpoint": "api.php",
+        "page_prefix": "",
+        "method": "srsearch",
+        "params": {
+          "action": "query",
+          "list": "search",
+          "format": "json",
+          "srwhat": "nearmatch",
+          "srqiprofile": "classic_noboostlinks"
+        }
+      },
+      {
+        "name": "imas",
+        "format": "gcse",
+        "base_url": "https://www.googleapis.com/",
+        "endpoint": "customsearch/v1",
+        "method": "q",
+        "params": {
+          "key": "INSERT KEY HERE",
+          "cx": "INSERT ID HERE"
+        }
+      },
+      {
+        "name": "kc",
+        "format": "wikia",
+        "base_url": "http://kancolle.wikia.com/",
+        "endpoint": "api/v1/Search/List",
+        "method": "query",
+        "params": {
+          "limit": "1",
+          "minArticleQuality": "90",
+          "batch": "1",
+          "namespaces": "0"
+        }
+      }
+    ]
+}
