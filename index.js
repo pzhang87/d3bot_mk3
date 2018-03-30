@@ -38,7 +38,7 @@ function onReady(evt){
 }
 
 async function onMessage(user, userID, channelID, message, evt){
-
+  
   // check if valid message. also check if channel is not restricted.
   if (message.substring(0, 1) == '!' && channels.unrestricted.indexOf(channelID) != -1) {
 
@@ -59,7 +59,7 @@ async function onMessage(user, userID, channelID, message, evt){
 
     bot.sendMessage({
       to: channelID,
-      message: reply.message,
+      message: reply.message || reply,
       embed: reply.embed ? reply.embed : {}
     })
 

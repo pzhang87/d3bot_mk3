@@ -73,6 +73,20 @@ var formatter = {
       return { message: "No items found." }
     }
   }
+
+  wikia: function(data){
+    if (data.items){
+      return {
+        embed: {
+          title: data.items[0].title,
+          description: data.items[0].snippet,
+          url: data.items[0].url
+        },
+        message: data.items[0].url
+      }
+    }
+
+  }
 }
 
 module.exports = {
