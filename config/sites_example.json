@@ -2,6 +2,19 @@
   "list":
     [
       {
+        "name": "2hu",
+        "format": "mediawiki",
+        "base_url": "https://en.touhouwiki.net/",
+        "endpoint": "api.php",
+        "page_prefix": "wiki/",
+        "method": "srsearch",
+        "params": {
+          "action": "query",
+          "list": "search",
+          "format": "json"
+        }
+      },
+      {
         "name": "im@s",
         "format": "mediawiki",
         "base_url": "https://www.project-imas.com/",
