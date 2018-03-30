@@ -50,7 +50,6 @@ async function onMessage(user, userID, channelID, message, evt){
     var reply;
 
     try {
-      logger.info(cmd + " " + _.has(Commands, cmd) + " | " + args)
       reply = _.has(Commands, cmd) ? await Commands[cmd](cmd, args) : Commands['default']();
     }
 
