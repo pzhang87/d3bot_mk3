@@ -72,7 +72,7 @@ var formatter = {
     } else {
       return { message: "No items found." }
     }
-  }
+  },
 
   wikia: function(data){
     if (data.items){

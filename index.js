@@ -38,7 +38,15 @@ function onReady(evt){
 }
 
 async function onMessage(user, userID, channelID, message, evt){
-  
+
+  // temp greeting
+  if (message.substring(0, 8) == "hi d3bot" && channels.unrestricted.indexOf(channelID) != -1){
+    bot.sendMessage({
+      to: channelID,
+      message: "hi `" + user + "`"
+    })
+  }
+
   // check if valid message. also check if channel is not restricted.
   if (message.substring(0, 1) == '!' && channels.unrestricted.indexOf(channelID) != -1) {
 
