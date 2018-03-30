@@ -1,13 +1,13 @@
 const Discord = require('discord.io');
 const logger = require('winston');
 const https = require('https');
-
+const _ = require('lodash')
 
 const auth = require('./auth.json');
 const channels = require('./channels.json');
 
 // import * from 'search';
-const search = require('./search.js');
+const Search = require('./search.js');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -15,139 +15,101 @@ logger.add(logger.transports.Console, {
     colorize: true
 });
 logger.level = 'debug';
+
 // Initialize Discord Bot
 var bot = new Discord.Client({
    token: auth.token,
    autorun: true
 });
 
-bot.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as: ');
-    logger.info(bot.username + ' - (' + bot.id + ')');
+function onReady(evt){
+  logger.info('Connected');
+  logger.info('Logged in as: ');
+  logger.info(bot.username + ' - (' + bot.id + ')');
 
-    channels.unrestricted.forEach( (channel) => {
-      bot.sendMessage({
-        to: channel,
-        message: "`d3bot online`"
-      })
+  channels.unrestricted.forEach( (channel) => {
+    bot.sendMessage({
+      to: channel,
+      message: "`d3bot online`"
     })
-});
-bot.on('message', function (user, userID, channelID, message, evt) {
-    // check to see if command - and check to see if belongs to unrestricted channel
-    // later we'll abstract the 2nd check out and change it to a throttle instead
-    if (message.substring(0, 1) == '!' && channels.unrestricted.indexOf(channelID) != -1) {
-        var args = message.substring(1).split(' ');
-        var cmd = args[0];
+  })
+}
 
-        args = args.splice(1);
+async function onMessage(user, userID, channelID, message, evt){
 
-        switch(cmd) {
-            // !killd3bot
-            case 'killd3bot':
-                bot.sendMessage({
-                    to: channelID,
-                    message: 'no u'
-                });
-            break;
+  var commands = {
+    'killd3bot': () => { return 'no u'},
+    // 'async': async (args) => {
+    //   let promise = new Promise((resolve, reject) => {
+    //     setTimeout( () => resolve("done!", 10000) )
+    //   });
+    //
+    //   let result = await promise;
+    //   logger.info(result)
+    //   return result;
+    // },
+    'im@s': async (args) => {
+      try {
+        var search = new Search('im@s', args);
 
-            // im@s search
-            case 'imas':
-              // construct the query
-              var query = args.join(' ');
-              var url = search.queryBuilder("imas_gcse", query)
+        let data = await search.find(search.url);
+        logger.info(data);
 
-              // handle the http request here.
-              https.get(url, res => {
-                var body = '';
+        return search.mwToMessageFormatter(data);
+      }
 
-                res.on("data", data => {
-                  body += data;
-                });
-                res.on("end", () => {
-                  body = JSON.parse(body);
+      catch (error) {
+        return "search failed. error: " + error
+      }
+    },
 
-                  var message = search.gcseToMessageFormatter(channelID, body)
-                  bot.sendMessage(message)
-                });
+    'imas': async (args) => {
+      try {
+        var search = new Search('imas_gcse', args);
 
-              }).on("error", (err) => {
-                logger.info("Error: " + err.message)
-                bot.sendMessage({
-                  to: channelID,
-                  message: "Error: " + err.message
-                })
-              });
-            break;
+        let data = await search.find(search.url);
+        logger.info(data);
 
-          case 'im@s':
-            var query = args.join(' ')
-            var url = search.queryBuilder("im@s", query)
-            logger.info(url)
-            https.get(url, (res) => {
-              var body = '';
+        return search.gcseToMessageFormatter(data);
+      }
 
-              res.on("data", data => {
-                body += data;
-              });
+      catch (error) {
+        return "search failed. error: " + error
+      }
+    },
 
-              res.on("end", () => {
-                body = JSON.parse(body);
-                logger.info(body)
-                bot.sendMessage(search.mwToMessageFormatter(channelID, body))
-              });
+    'feh': async (args) => {
+      try {
 
-            }).on("error", (err) => {
-              logger.info("Error: " + err.message)
-              bot.sendMessage({
-                to: channelID,
-                message: "Error: " + err.message
-              })
-            });
-          break;
+      }
 
-        case 'feh':
-          var query = args.join(' ')
-          var url = search.queryBuilder("feh", query)
-          logger.info(url)
-          https.get(url, (res) => {
-            var body = '';
+      catch (error) {
 
-            res.on("data", data => {
-              body += data;
-            });
+      }
+    },
 
-            res.on("end", () => {
-              logger.info(body)
-              body = JSON.parse(body);
-              bot.sendMessage(search.mwToMessageFormatter(channelID, body))
-            });
+    'default': () => { return 'unrecognized command'}
+  }
 
-          }).on("error", (err) => {
-            logger.info("Error: " + err.message)
-            bot.sendMessage({
-              to: channelID,
-              message: "Error: " + err.message
-            })
-          });
-        break;
-        case '+dkpl':
-          bot.sendMessage({
-            to: channelID,
-            message: "you have added 1 dkpl to your collection. you now have 0 dkpls."
-          })
-          break;
-        case '-dkpl':
-          bot.sendMessage({
-            to: channelID,
-            message: "you have removed 1 dkpl from your collection. you now have 0 dkpls."
-          })
-          break;
-        default:
-          bot.sendMessage({
-            to: channelID,
-            message: "shut up i h8 u"
-          });
-         }
-     }
-});
+  // check if valid message.
+  if (message.substring(0, 1) == '!' && channels.unrestricted.indexOf(channelID) != -1) {
+    var args = message.substring(1).split(' ');
+    var cmd = args[0];
+
+    args = args.splice(1);
+
+    logger.info(cmd + " " + _.has(commands, cmd))
+
+    var reply = _.has(commands, cmd) ? await commands[cmd](args) : commands['default']();
+
+    bot.sendMessage({
+      to: channelID,
+      message: reply.message ? reply.message : reply,
+      embed: reply.embed ? reply.embed : {}
+    })
+
+  }
+}
+
+bot.on('ready', onReady);
+bot.on('message', onMessage);

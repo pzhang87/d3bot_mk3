@@ -1,64 +1,64 @@
 // export function test(){
 //   return 'test function'
 // }
-const _ = require('lodash');
 const querystring = require('querystring');
+
+const _ = require('lodash');
+const axios = require('axios');
 
 const sites = require('./sites.json')
 
-function queryBuilder(name, query){
-  // lodash method that looks at the sites object and returns the object if the name property matches.
-  var site = _.find(sites.list, ['name', name])
-  if (!_.isUndefined(site)) {
-    return site.base_url + "?" + querystring.stringify(site.params) +
-      "&" + site.method + "=" + encodeURIComponent(query)
+module.exports = class Search {
+  constructor(name, args){
+    this.name = name;
+    this.query = args.join(' ');
+    this.url = this.queryBuilder(name, this.query);
   }
-}
-
-function mwToMessageFormatter(channelID, body){
-  if (body[1].length){
-    return {
-      to: channelID,
-      message: body[3][0]
-    }
-  } else {
-    return {
-      to: channelID,
-      message: "No results found."
+  queryBuilder(){
+    // should be same as querybuilder below, except with this.name instead of name
+    var site = _.find(sites.list, ['name', this.name])
+    if (!_.isUndefined(site)) {
+      return site.base_url + "?" + querystring.stringify(site.params) +
+        "&" + site.method + "=" + encodeURIComponent(this.query)
     }
   }
-}
 
-function gcseToMessageFormatter(channelID, body){
-  if (body.items){
-    return {
-      to: channelID,
-      message: body.items[0].link,
-      embed: {
-        title: body.items[0].title,
-        description: body.items[0].snippet,
-        url: body.items[0].link,
-        thumbnail: body.items[0].pagemap && body.items[0].pagemap.cse_thumbnail
-          ?
-            {
-              url: body.items[0].pagemap.cse_thumbnail[0].src,
-              height: 200,
-              width: 200
-            }
-          :
-            {}
+  async find(url){
+    try {
+      var res = await axios.get(url);
+      var data = res.data;
+      console.log("test: " + res.data);
+      return res.data;
+    } catch (error) {
+      console.log("error: " + error)
+    }
+  }
+
+  mwToMessageFormatter(data){
+    return data[1].length ? data[3][0].toString() : "No results found."
+  }
+
+  gcseToMessageFormatter(data){
+    if (data.items){
+      return {
+        message: data.items[0].link,
+        embed: {
+          title: data.items[0].title,
+          description: data.items[0].snippet.replace(/\n|\r/g, ""),
+          url: data.items[0].link,
+          thumbnail: data.items[0].pagemap && data.items[0].pagemap.cse_thumbnail
+            ?
+              {
+                url: data.items[0].pagemap.cse_thumbnail[0].src,
+                height: 200,
+                width: 200
+              }
+            :
+              {}
+        }
       }
-    }
-  } else {
-    return {
-      to: channelID,
-      message: "No results found."
+    } else {
+      return "No items found."
     }
   }
-}
-
-module.exports = {
-  queryBuilder: queryBuilder,
-  mwToMessageFormatter: mwToMessageFormatter,
-  gcseToMessageFormatter: gcseToMessageFormatter
 }
