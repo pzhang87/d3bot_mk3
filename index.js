@@ -7,7 +7,7 @@ const auth = require('./auth.json');
 const channels = require('./channels.json');
 
 // import * from 'search';
-const Search = require('./search.js');
+const Wikiquery = require('./wikiquery.js');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -50,7 +50,7 @@ async function onMessage(user, userID, channelID, message, evt){
     // },
     'im@s': async (args) => {
       try {
-        var search = new Search('im@s', args);
+        var search = new Wikiquery('im@s', args);
 
         let data = await search.find(search.url);
         logger.info(data);
@@ -65,7 +65,7 @@ async function onMessage(user, userID, channelID, message, evt){
 
     'imas': async (args) => {
       try {
-        var search = new Search('imas_gcse', args);
+        var search = new Wikiquery('imas_gcse', args);
 
         let data = await search.find(search.url);
         logger.info(data);
@@ -80,11 +80,16 @@ async function onMessage(user, userID, channelID, message, evt){
 
     'feh': async (args) => {
       try {
+        var search = new Wikiquery('feh', args);
 
+        let data = await search.find(search.url);
+        logger.info(data);
+
+        return search.gcseToMessageFormatter(data);
       }
 
       catch (error) {
-
+        return "search failed. error: " + error
       }
     },
 

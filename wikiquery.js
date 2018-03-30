@@ -8,14 +8,13 @@ const axios = require('axios');
 
 const sites = require('./sites.json')
 
-module.exports = class Search {
+module.exports = class Wikiquery {
   constructor(name, args){
     this.name = name;
     this.query = args.join(' ');
-    this.url = this.queryBuilder(name, this.query);
+    this.url = this.urlBuilder(name, this.query);
   }
-  queryBuilder(){
-    // should be same as querybuilder below, except with this.name instead of name
+  urlBuilder(){
     var site = _.find(sites.list, ['name', this.name])
     if (!_.isUndefined(site)) {
       return site.base_url + "?" + querystring.stringify(site.params) +
