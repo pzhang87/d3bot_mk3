@@ -7,7 +7,7 @@ const logger = require('winston');
 const _ = require('lodash');
 const axios = require('axios');
 
-const sites = require('./sites.json')
+const sites = require('./config/sites.json')
 
 async function find(name, args){
 
