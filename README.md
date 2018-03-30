@@ -12,7 +12,6 @@ for discord
 
 * figure out how to better work with Mediawiki search. 'first result' often sucks, and sometimes we get 0 results from the MW search.
 * fully migrate to ES6
-* find a decent promise library so we can refactor commands
 * deploy d3bot to an actual hosting platform so it has uptime
 
 ## ideas:
