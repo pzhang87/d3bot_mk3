@@ -54,7 +54,7 @@ async function onMessage(user, userID, channelID, message, evt){
     }
 
     catch (error) {
-      reply.message = error
+      reply.message = "error: " + error
     }
 
     bot.sendMessage({

@@ -14,14 +14,16 @@ async function find(name, args){
   // since we're searching, we'll auto-join the rest of the args.
   var query = args.join(' ');
   var site = _.find(sites.list, ['name', name])
-  var type = site.type
+  var format = site.format
 
-  var url = site.base_url + "?" + querystring.stringify(site.params) +
+
+  var url = site.base_url + site.endpoint + "?" + querystring.stringify(site.params) +
       "&" + site.method + "=" + encodeURIComponent(query)
 
   try {
     var res = await axios.get(url);
-    var reply = format[type](res.data)
+    var reply = formatter[format](res.data, site)
+
     return reply;
 
   } catch (error) {
@@ -32,15 +34,25 @@ async function find(name, args){
 
 // gross global variable but idk what else to do here yet
 
-var format = {
-  mediawiki: function(data){
-    return { message: data[1].length ? data[3][0].toString() : "No results found." }
+var formatter = {
+  mediawiki: function(data, site){
+    if (data.query.search.length){
+      var link = site.base_url + site.page_prefix + encodeURIComponent(data.query.search[0].title)
+      return {
+        // embed: {
+        //   title: data.query.search[0].title,
+        //   url: link
+        // },
+        message: link
+      }
+    } else {
+      return { message: "no results found" }
+    }
   },
 
   gcse: function(data){
     if (data.items){
       return {
-        message: data.items[0].link,
         embed: {
           title: data.items[0].title,
           description: data.items[0].snippet.replace(/\n|\r/g, ""),
@@ -54,7 +66,8 @@ var format = {
               }
             :
               {}
-        }
+        },
+        message: data.items[0].link,
       }
     } else {
       return { message: "No items found." }
