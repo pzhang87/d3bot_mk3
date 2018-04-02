@@ -3,8 +3,9 @@ const logger = require('winston');
 const https = require('https');
 const _ = require('lodash')
 
-const auth = require('./config/auth.json');
-const channels = require('./config/channels.json');
+const token = process.env.AUTH_TOKEN;
+const channels = JSON.parse(process.env.CHANNELS);
+const env = process.env.NODE_ENV;
 
 // import * from 'Commands';
 const Commands = require('./commands.js')
@@ -18,7 +19,7 @@ logger.level = 'debug';
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
-   token: auth.token,
+   token: token,
    autorun: true
 });
 
@@ -30,14 +31,16 @@ function onReady(evt){
   channels.unrestricted.forEach( (channel) => {
     // disabled for now.
 
-    // bot.sendMessage({
-    //   to: channel,
-    //   message: "`d3bot online`"
-    // })
+    bot.sendMessage({
+      to: channel,
+      message: "`d3bot (" + env + ") online`"
+    })
   })
 }
 
 async function onMessage(user, userID, channelID, message, evt){
+
+  logger.info("channel: " + channelID )
 
   // temp greeting
   if (message.substring(0, 8) == "hi d3bot" && channels.unrestricted.indexOf(channelID) != -1){

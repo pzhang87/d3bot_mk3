@@ -13,8 +13,8 @@ discord bot for personal use. but I guess you could use it if you want to?
 
 no fancy build processes yet. maybe afterwards.
 * `git clone`, `npm install --save`
-* go into the `config` folder, add keys, discord channelIDs, and other auth info in the `*_example.json` files, and rename them to `*.json`.
-* `node index.js` to start
+* add tokens, discord channelIDs, and other auth info in the `*_example.json` files, and rename them to `*.json`.
+* `pm2 startOrRestart config/ecosystem.json --env environment` to start
 * open discord and start using commands in the channels you provided
 
 ## issues/todo:

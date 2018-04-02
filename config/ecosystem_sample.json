@@ -1,0 +1,26 @@
+{
+  "apps": [
+    {
+      "name": "d3bot",
+      "script": "bot.js",
+      "watch": false,
+      "env": {
+        "NODE_ENV": "development",
+        "AUTH_TOKEN": "AUTH TOKEN HERE",
+        "CHANNELS": {
+          "unrestricted": ["CHANNELS GO HERE"],
+          "restricted": ["AND IN HERE"]
+        }
+      },
+
+      "env_production": {
+        "NODE_ENV": "production",
+        "AUTH_TOKEN": "AUTH TOKEN HERE",
+        "CHANNELS": {
+          "unrestricted": ["CHANNELS GO HERE"],
+          "restricted": ["AND IN HERE"]
+        }
+      }
+    }
+  ]
+}

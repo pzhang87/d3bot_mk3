@@ -3,3 +3,5 @@ node_modules
 auth.json
 channels.json
 sites.json
+
+ecosystem.json
