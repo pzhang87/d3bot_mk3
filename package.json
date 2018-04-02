@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "discord.io": "github:woor/discord.io#gateway_v6",
     "lodash": "^4.17.5",
+    "pm2": "^2.10.2",
     "winston": "^2.4.0"
   }
 }
