@@ -6,6 +6,7 @@ const _ = require('lodash')
 const token = process.env.AUTH_TOKEN;
 const channels = JSON.parse(process.env.CHANNELS);
 const env = process.env.NODE_ENV;
+const ownerChannel = process.env.OWNER_CHANNEL;
 
 // import * from 'Commands';
 const Commands = require('./commands.js')
@@ -28,13 +29,13 @@ function onReady(evt){
   logger.info('Logged in as: ');
   logger.info(bot.username + ' - (' + bot.id + ')');
 
-  // disabled for now.
-  
+  // alerts dev-server channel when d3bot is on.
+
   // channels.unrestricted.forEach( (channel) => {
-  //   bot.sendMessage({
-  //     to: channel,
-  //     message: "`d3bot (" + env + ") online`"
-  //   })
+    bot.sendMessage({
+      to: ownerChannel,
+      message: "`d3bot (" + env + ") online`"
+    })
   // })
 }
 

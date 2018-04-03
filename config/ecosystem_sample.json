@@ -7,19 +7,13 @@
       "env": {
         "NODE_ENV": "development",
         "AUTH_TOKEN": "AUTH TOKEN HERE",
-        "CHANNELS": {
-          "unrestricted": ["CHANNELS GO HERE"],
-          "restricted": ["AND IN HERE"]
-        }
+        "OWNER_CHANNEL": "OWNER CHANNEL HERE"
       },
 
       "env_production": {
         "NODE_ENV": "production",
         "AUTH_TOKEN": "AUTH TOKEN HERE",
-        "CHANNELS": {
-          "unrestricted": ["CHANNELS GO HERE"],
-          "restricted": ["AND IN HERE"]
-        }
+        "OWNER_CHANNEL": "OWNER CHANNEL HERE"
       }
     }
   ]
