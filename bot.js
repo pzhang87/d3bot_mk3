@@ -28,14 +28,14 @@ function onReady(evt){
   logger.info('Logged in as: ');
   logger.info(bot.username + ' - (' + bot.id + ')');
 
-  channels.unrestricted.forEach( (channel) => {
-    // disabled for now.
-
-    bot.sendMessage({
-      to: channel,
-      message: "`d3bot (" + env + ") online`"
-    })
-  })
+  // disabled for now.
+  
+  // channels.unrestricted.forEach( (channel) => {
+  //   bot.sendMessage({
+  //     to: channel,
+  //     message: "`d3bot (" + env + ") online`"
+  //   })
+  // })
 }
 
 async function onMessage(user, userID, channelID, message, evt){
