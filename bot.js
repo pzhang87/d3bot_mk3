@@ -41,7 +41,7 @@ function onReady(evt){
 
 async function onMessage(user, userID, channelID, message, evt){
 
-  logger.info("channel: " + channelID )
+  // logger.info("channel: " + channelID )
 
   // temp greeting
   if (message.substring(0, 8) == "hi d3bot" && channels.unrestricted.indexOf(channelID) != -1){
