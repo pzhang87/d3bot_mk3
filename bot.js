@@ -30,12 +30,10 @@ function onReady(evt){
   logger.info(bot.username + ' - (' + bot.id + ')');
 
   // alerts dev-server channel when d3bot is on.
-
-  // channels.unrestricted.forEach( (channel) => {
-    bot.sendMessage({
-      to: ownerChannel,
-      message: "`d3bot (" + env + ") online`"
-    })
+  bot.sendMessage({
+    to: ownerChannel,
+    message: "`d3bot (" + env + ") online`"
+  })
   // })
 }
 
@@ -44,7 +42,7 @@ async function onMessage(user, userID, channelID, message, evt){
   // logger.info("channel: " + channelID )
 
   // temp greeting
-  if (message.substring(0, 8) == "hi d3bot" && channels.unrestricted.indexOf(channelID) != -1){
+  if (message.substring(0, 8) == "hi d3bot"){
     bot.sendMessage({
       to: channelID,
       message: "hi `" + user + "`"
@@ -52,7 +50,7 @@ async function onMessage(user, userID, channelID, message, evt){
   }
 
   // check if valid message. also check if channel is not restricted.
-  if (message.substring(0, 1) == '!' && channels.unrestricted.indexOf(channelID) != -1) {
+  if (message.substring(0, 1) == '!') {
 
     // separate out the command from the arguments.
     var args = message.substring(1).split(' ');
