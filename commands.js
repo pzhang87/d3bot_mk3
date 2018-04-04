@@ -10,5 +10,5 @@ module.exports = {
   '+dkpl': () => { return "that command is unimplemented. you currently have 0 dkpls" },
   '-dkpl': () => { return "that command is unimplemented. you currently have 0 dkpls" },
   'default': () => { return 'unrecognized command' },
-  'commands': () => { return `available commands are: !2hu, !imas, !im@s, !feh, !kc, !killd3bot, !+dkpl, !-dkpl` }
+  'commands': () => { return 'available commands are: ' + Object.keys(this).join(', ') }
 }
