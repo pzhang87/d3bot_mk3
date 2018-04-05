@@ -23,6 +23,7 @@ no fancy build processes yet. maybe afterwards.
 
 * can still improve mediawiki search. query sometimes works better than opensearch, and additional configuration on a wiki by wiki basis leads to more meaningful results. could just crawl the namespaces and do fuzzy matching.
 * fully migrate to ES6 - transpiler, linter, etc. whatever
+* figure out travisCI + AWS + PM2
 * WRITE TESTS
 
 ## ideas:
