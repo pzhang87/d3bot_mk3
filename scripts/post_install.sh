@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-cd ~/node
+cd ~/d3bot_mk3
 npm install
 
 # setup NODE_ENV
