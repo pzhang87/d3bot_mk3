@@ -2,4 +2,4 @@ version: 0.0
 os: linux
 files:
   - source: ./
-    destination: /home/ubuntu/d3bot_mk3
+    destination: /home/ec2-user/d3bot_mk3
