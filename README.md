@@ -2,6 +2,8 @@
 
 discord bot for personal use. but I guess you could use it if you want to?
 
+now deployed on AWS.
+
 ### features/commands:
 * **!imas** [query] - uses Google Custom Search Engine and returns first relevant result from Project-Im@s wiki. Provides embed information for Discord.
 * **!im@s** [query] - uses Mediawiki API native to Project-Im@s wiki to return first relevant result. No embed information.
@@ -20,11 +22,10 @@ no fancy build processes yet. maybe afterwards.
 ## issues/todo:
 
 * can still improve mediawiki search. query sometimes works better than opensearch, and additional configuration on a wiki by wiki basis leads to more meaningful results. could just crawl the namespaces and do fuzzy matching.
-* figure out a better solution to configure allowed channels.
 * fully migrate to ES6 - transpiler, linter, etc. whatever
-* deploy d3bot to an actual hosting platform so it has uptime
 * WRITE TESTS
 
 ## ideas:
 
 * dkpl game - earn and spend dkpl points. probably gonna need a different repo for that - database + API + user interface.
+* create simple polls that users can vote on?
