@@ -1,9 +1,3 @@
-# symlink config files
-
-ln -sf ~/ec2-user/home/d3bot_config/ecosystem.json ~/ec2-user/home/d3bot_mk3/config/ecosystem.json
-
-ln -sf ~/ec2-user/home/d3bot_config/sites.json ~/ec2-user/home/d3bot_mk3/config/sites.json
-
 #!/usr/bin/env bash
 set -e
 
@@ -27,3 +21,8 @@ hasRc=`grep "su -l $USER" /etc/rc.d/rc.local | cat`
 if [ -z "$hasRc" ]; then
     sudo sh -c "echo 'su -l $USER -c \"cd ~/node;sh ./run.sh\"' >> /etc/rc.d/rc.local"
 fi
+
+# symlink config files
+ln -sf ~/ec2-user/home/d3bot_mk3/config/ecosystem.json ~/ec2-user/home/d3bot_config/ecosystem.json
+
+ln -sf ~/ec2-user/home/d3bot_mk3/config/sites.json ~/ec2-user/home/d3bot_config/sites.json
