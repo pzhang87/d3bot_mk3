@@ -1,9 +1,9 @@
 # symlink config files
-ln -sf ~/d3bot_config/ecosystem.json ~/d3bot_mk3/config/ecosystem.json
-ln -sf ~/d3bot_config/sites.json ~/d3bot_mk3/config/sites.json
+ln -sf ~/home/ec2-user/d3bot_config/ecosystem.json ~/home/ec2-user/config/ecosystem.json
+ln -sf ~/home/ec2-user/d3bot_config/sites.json ~/home/ec2-user/d3bot_mk3/config/sites.json
 
-!/usr/bin/env bash
-set -e
+#!/usr/bin/env bash
+# set -e
 
 # cd ~/ec2-user/home/d3bot_mk3
 # npm install
