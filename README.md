@@ -13,7 +13,7 @@ now deployed on AWS.
 
 ## how to use:
 
-no fancy build processes yet. maybe afterwards.
+to start locally:
 * `git clone`, `npm install --save`
 * add tokens, discord channelIDs, and other auth info in the `*_example.json` files, and rename them to `*.json`.
 * `pm2 startOrRestart config/ecosystem.json --env environment` to start
