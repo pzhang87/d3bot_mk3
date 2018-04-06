@@ -5,3 +5,4 @@
 #
 cd /home
 ls
+pm2 startOrRestart /ec2-user/home/d3bot_mk3/config/ecosystem.json --env production
