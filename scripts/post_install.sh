@@ -1,5 +1,5 @@
 # symlink config files
-ln -sf ~/home/ec2-user/d3bot_config/ecosystem.json ~/home/ec2-user/config/ecosystem.json
+ln -sf ~/home/ec2-user/d3bot_config/ecosystem.json ~/home/ec2-user/d3bot_config/ecosystem.json
 ln -sf ~/home/ec2-user/d3bot_config/sites.json ~/home/ec2-user/d3bot_mk3/config/sites.json
 
 #!/usr/bin/env bash
