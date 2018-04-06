@@ -3,4 +3,6 @@
 #  export NODE_ENV=$DEPLOYMENT_GROUP_NAME
 # fi
 #
+cd /
+ls
 pm2 startOrRestart /ec2-user/home/d3bot_mk3/config/ecosystem.json --env production
