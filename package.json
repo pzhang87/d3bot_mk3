@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pm2 startOrRestart config/ecosystem.json --env production",
+    "start-dev": "pm2 startOrRestart config/ecosystem.json --env development"
   },
   "author": "",
   "license": "ISC",
