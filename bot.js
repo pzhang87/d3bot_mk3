@@ -11,6 +11,9 @@ const ownerChannel = process.env.OWNER_CHANNEL;
 // import * from 'Commands';
 const Commands = require('./commands.js')
 
+// bot specific
+const COMMAND_PREFIX = "?"
+
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
@@ -50,7 +53,7 @@ async function onMessage(user, userID, channelID, message, evt){
   }
 
   // check if valid message. also check if channel is not restricted.
-  if (message.substring(0, 1) == '!') {
+  if (message.substring(0, 1) == COMMAND_PREFIX) {
 
     // separate out the command from the arguments.
     var args = message.substring(1).split(' ');
