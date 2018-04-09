@@ -33,7 +33,7 @@ function onReady(evt){
   logger.info('Connected');
   logger.info('Logged in as: ');
   logger.info(bot.username + ' - (' + bot.id + ')');
-  logger.info('Time: ' + moment.format())
+  logger.info('Time: ' + moment().format())
 
   // alerts dev-server channel when d3bot is on.
   bot.sendMessage({
