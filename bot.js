@@ -8,11 +8,13 @@ const channels = JSON.parse(process.env.CHANNELS);
 const env = process.env.NODE_ENV;
 const ownerChannel = process.env.OWNER_CHANNEL;
 
+const moment = require('moment')
+
 // import * from 'Commands';
 const Commands = require('./commands.js')
 
 // bot specific
-const COMMAND_PREFIX = "?"
+const COMMAND_PREFIX = "~"
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -31,6 +33,7 @@ function onReady(evt){
   logger.info('Connected');
   logger.info('Logged in as: ');
   logger.info(bot.username + ' - (' + bot.id + ')');
+  logger.info('Time: ' + moment.format())
 
   // alerts dev-server channel when d3bot is on.
   bot.sendMessage({
