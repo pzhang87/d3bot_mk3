@@ -60,7 +60,7 @@ async function onMessage(user, userID, channelID, message, evt){
     var reply;
 
     try {
-      reply = _.has(Commands, cmd) ? await Commands[cmd](cmd, args) : Commands['default']();
+      reply = _.has(Commands.list, cmd) ? await Commands.list[cmd](cmd, args) : Commands['default']();
     }
 
     catch (error) {
