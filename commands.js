@@ -10,7 +10,7 @@ var list = {
   '+dkpl': () => { return "that command is unimplemented. you currently have 0 dkpls" },
   '-dkpl': () => { return "that command is unimplemented. you currently have 0 dkpls" },
   commands (){
-    return "available commands:\n\n" +  Object.keys(this).map(key => {return "`!" + key.toString() + "`"}).join(', ')
+    return "available commands:\n\n" +  Object.keys(this).map(key => {return "`" + key.toString() + "`"}).join(', ')
   }
 }
 
