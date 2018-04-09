@@ -14,9 +14,10 @@ var list = {
   }
 }
 
-function default() { return 'unrecognized command' }
+// note to self: default is a special keyword in JS because of switches, so don't use it willy nilly
+function defaultCmd() { return 'unrecognized command' }
 
 module.exports = {
   list: list,
-  default: default
+  default: defaultCmd
 }
