@@ -14,7 +14,7 @@ const moment = require('moment')
 const Commands = require('./commands.js')
 
 // bot specific
-const COMMAND_PREFIX = "~"
+const COMMAND_PREFIX = "?"
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
