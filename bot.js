@@ -63,10 +63,17 @@ async function onMessage(user, userID, channelID, message, evt){
     var cmd = args[0];
     args = args.splice(1);
 
-    var reply;
+    // set up config to be passed into the handler. is an object so that we don't have to rely on arg order
+    var cmdConfig = {
+      cmd: cmd,
+      args: args,
+      userID: userID
+    }
+
+    var reply = { message: ""};
 
     try {
-      reply = _.has(Commands.list, cmd) ? await Commands.list[cmd](cmd, args) : Commands['default']();
+      reply = await Commands.handle(cmdConfig);
     }
 
     catch (error) {
@@ -75,7 +82,7 @@ async function onMessage(user, userID, channelID, message, evt){
 
     bot.sendMessage({
       to: channelID,
-      message: reply.message || reply,
+      message: reply.message,
       embed: reply.embed ? reply.embed : {}
     })
 
