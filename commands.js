@@ -11,13 +11,13 @@ var list = {
   'kc': Search.find,
   'dkpl': DKPL.handle,
   commands (){
-    return "available commands:\n\n" +  Object.keys(this).map(key => {return "`" + key.toString() + "`"}).join(', ')
+    return { message: "available commands:\n\n" +  Object.keys(this).map(key => {return "`" + key.toString() + "`"}).join(', ') }
   }
 }
 
 // note to self: default is a special keyword in JS because of switches, so don't use it willy nilly
 function defaultCmd() {
-  return 'unrecognized command'
+  return { message: 'unrecognized command' }
 }
 
 async function handle(cmdConfig){
