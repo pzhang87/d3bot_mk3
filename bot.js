@@ -48,10 +48,11 @@ async function onMessage(user, userID, channelID, message, evt){
 
   // temp greeting
   if (message.substring(0, 8) == "hi d3bot"){
-    bot.sendMessage({
+    var reply = {
       to: channelID,
       message: "hi `" + user + "`"
-    })
+    }
+    bot.sendMessage(reply)
   }
 
   // check if valid message. also check if channel is not restricted.
@@ -69,6 +70,7 @@ async function onMessage(user, userID, channelID, message, evt){
       userID: userID
     }
 
+    // reply should be an object.
     var reply = {};
 
     try {
@@ -79,12 +81,9 @@ async function onMessage(user, userID, channelID, message, evt){
       reply.message = "error: " + error
     }
 
-    bot.sendMessage({
-      to: channelID,
-      message: reply.message,
-      embed: reply.embed ? reply.embed : {}
-    })
+    reply.to = channelID,
 
+    bot.sendMessage(reply)
   }
 }
 
