@@ -9,11 +9,11 @@ const axios = require('axios');
 
 const sites = require('./config/sites.json')
 
-async function find(name, args){
+async function find(cmdConfig){
 
   // since we're searching, we'll auto-join the rest of the args.
-  var query = args.join(' ');
-  var site = _.find(sites.list, ['name', name])
+  var query = cmdConfig.args.join(' ');
+  var site = _.find(sites.list, ['name', cmdConfig.cmd])
   var format = site.format
 
 

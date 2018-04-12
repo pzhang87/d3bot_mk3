@@ -10,11 +10,10 @@ const ownerChannel = process.env.OWNER_CHANNEL;
 
 const moment = require('moment')
 
+const COMMAND_FORMAT = /\?\w+/
+
 // import * from 'Commands';
 const Commands = require('./commands.js')
-
-// bot specific
-const COMMAND_PREFIX = "?"
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -49,36 +48,42 @@ async function onMessage(user, userID, channelID, message, evt){
 
   // temp greeting
   if (message.substring(0, 8) == "hi d3bot"){
-    bot.sendMessage({
+    var reply = {
       to: channelID,
       message: "hi `" + user + "`"
-    })
+    }
+    bot.sendMessage(reply)
   }
 
   // check if valid message. also check if channel is not restricted.
-  if (message.substring(0, 1) == COMMAND_PREFIX) {
+  if (COMMAND_FORMAT.test(message)) {
 
     // separate out the command from the arguments.
     var args = message.substring(1).split(' ');
     var cmd = args[0];
     args = args.splice(1);
 
-    var reply;
+    // set up config to be passed into the handler. is an object so that we don't have to rely on arg order
+    var cmdConfig = {
+      cmd: cmd,
+      args: args,
+      userID: userID
+    }
+
+    // reply should be an object.
+    var reply = {};
 
     try {
-      reply = _.has(Commands.list, cmd) ? await Commands.list[cmd](cmd, args) : Commands['default']();
+      reply = await Commands.handle(cmdConfig);
     }
 
     catch (error) {
       reply.message = "error: " + error
     }
 
-    bot.sendMessage({
-      to: channelID,
-      message: reply.message || reply,
-      embed: reply.embed ? reply.embed : {}
-    })
+    reply.to = channelID,
 
+    bot.sendMessage(reply)
   }
 }
 
