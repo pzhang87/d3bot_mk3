@@ -10,7 +10,7 @@ const ownerChannel = process.env.OWNER_CHANNEL;
 
 const moment = require('moment')
 
-const COMMAND_FORMAT = /\?\w+/
+const COMMAND_FORMAT = /^\?\w+/
 
 // import * from 'Commands';
 const Commands = require('./commands.js')
@@ -43,8 +43,6 @@ function onReady(evt){
 }
 
 async function onMessage(user, userID, channelID, message, evt){
-
-  // logger.info("channel: " + channelID )
 
   // temp greeting
   if (message.substring(0, 8) == "hi d3bot"){
