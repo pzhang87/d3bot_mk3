@@ -3,7 +3,7 @@ const Search = require('./search.js');
 const DKPL = require('./dkpl.js');
 
 var list = {
-  killd3bot() { return 'no u' },
+  killd3bot() { return { message: 'no u'} },
   '2hu': Search.find,
   'im@s': Search.find,
   'imas': Search.find,
