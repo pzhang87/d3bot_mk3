@@ -10,7 +10,7 @@ const ownerChannel = process.env.OWNER_CHANNEL;
 
 const moment = require('moment')
 
-const COMMAND_FORMAT = /^\?[a-zA-Z\d]+ ?.+/
+const COMMAND_PREFIX = "?"
 
 // import * from 'Commands';
 const Commands = require('./commands.js')
@@ -43,9 +43,7 @@ function onReady(evt){
 }
 
 async function onMessage(user, userID, channelID, message, evt){
-
-  // temp greeting
-  if (message.substring(0, 8) == "hi d3bot"){
+  if (message.substring(0, 8) === "hi d3bot"){
     var reply = {
       to: channelID,
       message: "hi `" + user + "`"
@@ -54,7 +52,7 @@ async function onMessage(user, userID, channelID, message, evt){
   }
 
   // check if valid message. also check if channel is not restricted.
-  if (COMMAND_FORMAT.test(message)) {
+  if (message.startsWith(COMMAND_PREFIX)) {
 
     // separate out the command from the arguments.
     var args = message.substring(1).split(' ');
@@ -73,15 +71,18 @@ async function onMessage(user, userID, channelID, message, evt){
 
     try {
       reply = await Commands.handle(cmdConfig);
+      if (!_.isUndefined(reply) && !_.isUndefined(reply.message)){
+        reply.to = channelID,
+        bot.sendMessage(reply)
+      } else {
+        logger.info("bot did not reply")
+      }
     }
 
     catch (error) {
-      reply.message = "error: " + error
+      logger.info('error: ' + error)
     }
 
-    reply.to = channelID,
-
-    bot.sendMessage(reply)
   }
 }
 
