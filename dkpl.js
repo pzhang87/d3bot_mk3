@@ -7,18 +7,18 @@ var dkplist = {
 }
 
 function defaultCmd(){
-  return "unrecognized command"
+  return { message: "unrecognized command" }
 }
 
 // pseudocode
 async function register(cmdConfig){
-  var message;
+  var reply;
 
   // make an http request to see if the user is registered.
 
   // if so, register the user. if not, tell the user isn't registered.
 
-  return message;
+  return reply;
 }
 
 async function roll(cmdConfig){
