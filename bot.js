@@ -10,7 +10,7 @@ const ownerChannel = process.env.OWNER_CHANNEL;
 
 const moment = require('moment')
 
-const COMMAND_FORMAT = /^\?[^?]+/
+const COMMAND_FORMAT = /^\?[a-zA-Z\d]+ ?.+/
 
 // import * from 'Commands';
 const Commands = require('./commands.js')
