@@ -67,11 +67,11 @@ async function onMessage(user, userID, channelID, message, evt){
     }
 
     // reply should be an object.
-    var reply = {};
+    var reply;
 
     try {
       reply = await Commands.handle(cmdConfig);
-      if (!_.isUndefined(reply) && !_.isUndefined(reply.message)){
+      if (reply && reply.message){
         reply.to = channelID,
         bot.sendMessage(reply)
       } else {

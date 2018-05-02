@@ -29,6 +29,7 @@ function handle(cmdConfig){
   }
   catch (error){
     logger.info("unrecognized command: " + cmdConfig.cmd)
+    return null;
   }
 }
 

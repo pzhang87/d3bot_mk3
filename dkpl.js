@@ -2,7 +2,11 @@ const logger = require('winston')
 
 var dkplist = {
   register: register,
-  pull: pull
+  pull: pull,
+  roll: pull,
+  commands (){
+    return { message: "available dkpl commands:\n\n" +  Object.keys(this).map(key => {return "`" + key.toString() + "`"}).join(', ') }
+  }
 }
 
 // pseudocode
@@ -26,10 +30,15 @@ async function pull(cmdConfig){
 function handle(cmdConfig){
   logger.info(cmdConfig)
   try {
-    return dkplist[cmdConfig.args[0]](cmdConfig)
+    if (cmdConfig.args.length){
+      return dkplist[cmdConfig.args[0]](cmdConfig)
+    } else {
+      return dkplist.commands();
+    }
   }
   catch (error) {
-    logger.info("unrecognized command: " + cmdConfig.cmd + " " + cmdConfig.args.join(" "))
+    logger.info("error: " + error)
+    return null;
   }
 }
 
