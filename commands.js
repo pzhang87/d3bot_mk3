@@ -9,6 +9,7 @@ var list = {
   'imas': Search.find,
   'feh': Search.find,
   'kc': Search.find,
+  'yt': Search.find,
   'dkpl': DKPL.handle,
   'info': userInfo,
   commands (){

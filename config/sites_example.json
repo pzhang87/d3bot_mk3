@@ -65,6 +65,17 @@
           "batch": "1",
           "namespaces": "0"
         }
+      },
+      {
+        "name": "yt",
+        "format": "youtube",
+        "base_url": "https://www.googleapis.com/youtube/v3/search",
+        "method": "q",
+        "params": {
+          "part": "snippet",
+          "maxResults": 1,
+          "key": "INSERT KEY HERE"
+        }
       }
     ]
 }

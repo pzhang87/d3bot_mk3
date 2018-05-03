@@ -37,7 +37,7 @@ function onReady(evt){
   // alerts dev-server channel when d3bot is on.
   bot.sendMessage({
     to: ownerChannel,
-    message: "`d3bot (" + env + ") online`"
+    message: "d3bot `(" + env + ")` online at `" + moment().format("dddd, MMMM Do YYYY, h:mm:ss a (ZZ)") + "`"
   })
   // })
 }
@@ -67,11 +67,11 @@ async function onMessage(user, userID, channelID, message, evt){
     }
 
     // reply should be an object.
-    var reply = {};
+    var reply;
 
     try {
       reply = await Commands.handle(cmdConfig);
-      if (!_.isUndefined(reply) && !_.isUndefined(reply.message)){
+      if (reply && reply.message){
         reply.to = channelID,
         bot.sendMessage(reply)
       } else {
