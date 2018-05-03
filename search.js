@@ -46,7 +46,7 @@ var formatter = {
         message: link
       }
     } else {
-      return { message: "no results found" }
+      return { message: "No items found." }
     }
   },
 
@@ -84,8 +84,17 @@ var formatter = {
         },
         message: data.items[0].url
       }
+    } else {
+      return { message: "No items found." }
     }
+  },
 
+  youtube: function(data){
+    if (data.items){
+      return { message: "https://youtu.be/" + data.items[0].id.videoId };
+    } else {
+      return { message: "No items found." }
+    }
   }
 }
 
