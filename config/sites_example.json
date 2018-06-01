@@ -73,6 +73,7 @@
         "method": "q",
         "params": {
           "part": "snippet",
+          "type": "video",
           "maxResults": 1,
           "key": "INSERT KEY HERE"
         }
