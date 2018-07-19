@@ -14,7 +14,7 @@ var list = {
   'dkpl': DKPL.handle,
   'info': userInfo,
   'mirimote': Emote.handle,
-  'deremote': Emote.handle,
+  // 'deremote': Emote.handle,
   commands (){
     return { message: "available commands:\n\n" +  Object.keys(this).map(key => {return "`" + key.toString() + "`"}).join(', ') }
   }
