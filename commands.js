@@ -1,6 +1,7 @@
 const Search = require('./search.js');
 const DKPL = require('./dkpl.js');
-const logger = require('winston')
+const logger = require('winston');
+const Emote = require('./emote.js')
 
 var list = {
   killd3bot() { return { message: 'no u'} },
@@ -12,10 +13,14 @@ var list = {
   'ytv': Search.find,
   'dkpl': DKPL.handle,
   'info': userInfo,
+  'mirimote': Emote.handle,
+  'deremote': Emote.handle,
   commands (){
     return { message: "available commands:\n\n" +  Object.keys(this).map(key => {return "`" + key.toString() + "`"}).join(', ') }
   }
 }
+
+// cmdConfig is an object with 3 params: cmd, args, and userID
 
 function userInfo(cmdConfig){
   var message = (process.env.NODE_ENV == "development")
@@ -29,7 +34,7 @@ function handle(cmdConfig){
     return list[cmdConfig.cmd](cmdConfig)
   }
   catch (error){
-    logger.info("unrecognized command: " + cmdConfig.cmd)
+    logger.info("error: " + error)
   }
 }
 
