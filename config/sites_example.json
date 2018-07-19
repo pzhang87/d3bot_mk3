@@ -78,5 +78,17 @@
           "key": "INSERT KEY HERE"
         }
       }
-    ]
+    ],
+    "emotes": {
+      "base_url": "https://api.imgur.com/3/",
+      "headers": {
+        "Authorization": "Client-ID {{YOUR ID HERE}}"
+      },
+      "list": [
+        {
+          "name": "command name here",
+          "endpoint": "album/{{album hash}}"
+        }
+      ]
+    }
 }
