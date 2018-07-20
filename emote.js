@@ -27,14 +27,14 @@ async function handle(cmdConfig){
         var showList = args.indexOf('--list') !== -1 ? true : false
         var imagesList = album.images.map((image, index) => {
           return image.description || index + 1
-        }).join(', ')
+        }).map((name) => {return '`' + name + '`'}).join(", ")
 
         if (args.length >= 1 && !showList){
           var imageFound = _.find(album.images, ['description', args[0]])
           logger.info("image found? ", imageFound)
           reply.message = imageFound
             ? imageFound.link
-            : "emote not found. " + imagesList
+            : "emote not found. available emotes: " + imagesList
         } else if (args.length == 1 && showList) {
           reply.message = imagesList
         } else {
