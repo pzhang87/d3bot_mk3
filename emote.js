@@ -20,13 +20,30 @@ async function handle(cmdConfig){
       // wtf is this why does this work
       var album = response.data.data
 
-      if (album.images && album.images.length >= 1 && args.length >= 1){
-        var imageFound = _.find(album.images, ['description', args[0]])
-        logger.info("image found? ", imageFound)
-        reply.message = imageFound ? imageFound.link : album.link
+      // set the reply message here
+
+      // album should contain images
+      if (album.images && album.images.length >= 1){
+        var showList = args.indexOf('--list') !== -1 ? true : false
+        var imagesList = album.images.map((image, index) => {
+          return image.description || index + 1
+        }).join(', ')
+
+        if (args.length >= 1 && !showList){
+          var imageFound = _.find(album.images, ['description', args[0]])
+          logger.info("image found? ", imageFound)
+          reply.message = imageFound
+            ? imageFound.link
+            : "emote not found. " + imagesList
+        } else if (args.length == 1 && showList) {
+          reply.message = imagesList
+        } else {
+          reply.message = album.images[_.random(album.images.length)].link
+        }
       } else {
-        reply.message = "emotes not found"
+        reply.message = "emote album contains no images"
       }
+
 
       return reply;
 
