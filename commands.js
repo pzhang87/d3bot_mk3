@@ -13,7 +13,7 @@ var list = {
   'ytv': Search.find,
   'dkpl': DKPL.handle,
   'info': userInfo,
-  'mirimote': Emote.handle,
+  'ml': Emote.handle,
   // 'deremote': Emote.handle,
   commands (){
     return { message: "available commands:\n\n" +  Object.keys(this).map(key => {return "`" + key.toString() + "`"}).join(', ') }
