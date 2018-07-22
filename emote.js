@@ -35,6 +35,13 @@ async function handle(cmdConfig){
           reply.message = imageFound
             ? imageFound.link
             : "emote not found. available emotes: " + imagesList
+          reply.embed =
+            {
+              title: imageFound ? null : album.title,
+              image: {
+                url: imageFound ? imageFound.link : "https://i.imgur.com/" + album.cover + ".gif"
+              }
+            }
         } else if (args.length == 1 && showList) {
           reply.message = imagesList
         } else {
