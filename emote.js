@@ -45,7 +45,14 @@ async function handle(cmdConfig){
         } else if (args.length == 1 && showList) {
           reply.message = imagesList
         } else {
-          reply.message = album.images[_.random(album.images.length)].link
+          let randInt = _.random(album.images.length)
+          reply.message = album.images[randInt].link
+          reply.embed =
+            {
+              image: {
+                url: album.images[randInt].link
+              }
+            }
         }
       } else {
         reply.message = "emote album contains no images"
