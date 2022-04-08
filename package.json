@@ -14,7 +14,7 @@
     "axios": "^0.18.1",
     "discord.io": "github:woor/discord.io#gateway_v6",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "pm2": "^2.10.4",
     "winston": "^2.4.4"
   }
